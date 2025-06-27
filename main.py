@@ -114,7 +114,7 @@ def pad_panel_to_height(panel, height):
 # github panel creation 
 def create_github_stats_panel(gh_info, contributions):
     stats_table = Table(show_header=False, box=None, padding=(0, 1))
-    stats_table.add_column("Metric", style="bold cyan", width=15)
+    stats_table.add_column("Metric", style="bold magenta", width=15)
     stats_table.add_column("Value", style="white", width=10)
     stats_table.add_row("📁 Repositories", f"{gh_info.get('public_repos', 0):,}")
     stats_table.add_row("👥 Followers", f"{gh_info.get('followers', 0):,}")
@@ -157,8 +157,8 @@ def create_github_stats_panel(gh_info, contributions):
     
     return Panel(
         content,
-        title=f"[bold green]GitHub: {gh_info.get('login', 'Unknown')}[/bold green]",
-        border_style="green",
+        title=f"[bold magenta]GitHub: {gh_info.get('login', 'Unknown')}[/bold magenta]",
+        border_style="magenta",
         box=ROUNDED,
         padding=(1, 2)
     )
@@ -168,12 +168,12 @@ def create_social_links_panel(social_links):
     if not social_links:
         return Panel(
             "[italic dim]No social links available[/italic dim]",
-            title="[bold blue]Social Links[/bold blue]",
-            border_style="blue",
+            title="[bold magenta]Social Links[/bold magenta]",
+            border_style="magenta",
             box=ROUNDED
         )
     social_table = Table(show_header=False, box=None, padding=(0, 1))
-    social_table.add_column("Platform", style="bold blue", width=12)
+    social_table.add_column("Platform", style="bold magenta", width=12)
     social_table.add_column("Link", style="dim", overflow="fold")
     platform_icons = {
         "Github": "🐙",
@@ -187,8 +187,8 @@ def create_social_links_panel(social_links):
         social_table.add_row(f"{icon} {platform}", link)
     return Panel(
         social_table,
-        title="[bold blue]Social Links[/bold blue]",
-        border_style="blue",
+        title="[bold magenta]Social Links[/bold magenta]",
+        border_style="magenta",
         box=ROUNDED,
         padding=(1, 2)
     )
@@ -209,9 +209,9 @@ def lookup_user():
     console = Console()
     console.clear()
     header = Panel(
-        Align.center("[bold cyan]Profile Lookup[/bold cyan]\n[dim]Enter a username to view their profile[/dim]"),
+        Align.center("[bold magenta]Profile Lookup[/bold magenta]\n[dim]Enter a username to view their profile[/dim]"),
         box=ROUNDED,
-        border_style="cyan",
+        border_style="magenta",
         padding=(1, 2)
     )
     console.print(header)
@@ -229,7 +229,7 @@ def lookup_user():
         user_header = Panel(
             Align.center(f"[bold white]Profile: {username}[/bold white]"),
             box=ROUNDED,
-            border_style="cyan",
+            border_style="magenta",
             padding=(1, 2)
         )
         console.print(user_header)
@@ -302,7 +302,7 @@ def display_current_profile(user_data):
     profile_panel = Panel(
         Align.center(f"[bold white]Current Profile: {user_data['username']}[/bold white]"),
         box=ROUNDED,
-        border_style="cyan",
+        border_style="magenta",
         padding=(1, 2)
     )
     console.print(profile_panel)
@@ -416,7 +416,7 @@ def edit_profile():
         header = Panel(
             Align.center(f"[bold white]Edit User Profile[/bold white]"),
             box=ROUNDED,
-            border_style="cyan",
+            border_style="magenta",
             padding=(1, 2)
         )
         console.print(header)
@@ -434,7 +434,7 @@ def edit_profile():
     new_bio = edit_bio(user_data.get('bio', ''))
     new_social_links = edit_social_links(user_data.get('social', {}))
     console.print("\n" + "="*50)
-    console.print("[bold cyan]📋 Updated Profile Summary[/bold cyan]")
+    console.print("[bold magenta]📋 Updated Profile Summary[/bold magenta]")
     console.print(f"👤 Username: {username}")
     console.print(f"📝 Bio:\n{new_bio}")
     if new_social_links:
@@ -516,7 +516,7 @@ def login_user():
     header = Panel(
         Align.center(f"[bold white]Login[/bold white]"),
         box=ROUNDED,
-        border_style="cyan",
+        border_style="magenta",
         padding=(1, 2)
     )
     console.print(header)
@@ -543,7 +543,7 @@ def sign_up():
     user_header = Panel(
         Align.center(f"[bold white]Sign Up:[/bold white]"),
         box=ROUNDED,
-        border_style="cyan",
+        border_style="magenta",
         padding=(1, 2)
     )
     console.print(user_header)
@@ -607,7 +607,7 @@ def sign_up():
         lines.append(line)
     description = "\n".join(lines)
 
-    console.print("\n[bold cyan]Summary[/bold cyan]")
+    console.print("\n[bold magenta]Summary[/bold magenta]")
     console.print(f"👤 Username: {username}")
     console.print(f"📝 Bio:\n{description}")
     if social_links:
@@ -636,9 +636,9 @@ def main():
     if local_user:
         while True:
             header = Panel(
-                Align.center(f"[bold cyan]Welcome back to Glyph, {local_user['username']}![/bold cyan]\n[dim]Choose an option to get started[/dim]"),
+                Align.center(f"[bold magenta]Welcome back to Glyph, {local_user['username']}![/bold magenta]\n[dim]Choose an option to get started[/dim]"),
                 box=ROUNDED,
-                border_style="cyan",
+                border_style="magenta",
                 padding=(1, 2)
             )
             console.print(header)
@@ -667,13 +667,13 @@ def main():
                 continue
             elif action == "🔓 Logout":
                 logout_user()
-                console.print("[bold cyan]You have been logged out![/bold cyan]")
+                console.print("[bold magenta]You have been logged out![/bold magenta]")
                 console.clear()
                 main()
                 break
             elif action == "🚪 Exit":
                 console.clear()
-                console.print("[bold cyan]Thanks for using...[/bold cyan]")
+                console.print("[bold magenta]Thanks for using...[/bold magenta]")
                 console.print(
                     "[bold magenta]\n"
                     " ░▒▓██████▓▒░░▒▓█▓▒░   ░▒▓█▓▒░░▒▓█▓▒░▒▓███████▓▒░░▒▓█▓▒░░▒▓█▓▒░ \n"
@@ -693,9 +693,9 @@ def main():
         while True:
             
             header = Panel(
-                Align.center("[bold cyan]Glyph[/bold cyan]\n[dim]Choose an option to get started[/dim]"),
+                Align.center("[bold magenta]Glyph[/bold magenta]\n[dim]Choose an option to get started[/dim]"),
                 box=ROUNDED,
-                border_style="cyan",
+                border_style="magenta",
                 padding=(1, 2)
             )
             console.print(header)
@@ -735,7 +735,7 @@ def main():
                 break
             elif action == "🚪 Exit":
                 console.clear()
-                console.print("[bold cyan]Thanks for using...[/bold cyan]")
+                console.print("[bold magenta]Thanks for using...[/bold magenta]")
                 console.print(
                     "[bold magenta]\n"
                     " ░▒▓██████▓▒░░▒▓█▓▒░   ░▒▓█▓▒░░▒▓█▓▒░▒▓███████▓▒░░▒▓█▓▒░░▒▓█▓▒░ \n"
