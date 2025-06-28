@@ -14,7 +14,7 @@ import string
 load_dotenv()
 url = os.environ.get("SUPABASE_URL")
 key = os.environ.get("SUPABASE_KEY")
-supabase = create_client(url, key)
+supabase = create_client(url, key)  
 
 app = Flask(__name__)
 CORS(app)
