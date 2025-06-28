@@ -1,0 +1,2 @@
+[console_scripts]
+glyph = glyph_media.cli:main

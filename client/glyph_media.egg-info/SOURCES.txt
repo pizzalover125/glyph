@@ -1,0 +1,10 @@
+README.md
+setup.py
+glyph_media/__init__.py
+glyph_media/main.py
+glyph_media.egg-info/PKG-INFO
+glyph_media.egg-info/SOURCES.txt
+glyph_media.egg-info/dependency_links.txt
+glyph_media.egg-info/entry_points.txt
+glyph_media.egg-info/requires.txt
+glyph_media.egg-info/top_level.txt

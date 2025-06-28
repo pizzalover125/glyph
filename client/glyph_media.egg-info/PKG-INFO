@@ -1,0 +1,32 @@
+Metadata-Version: 2.4
+Name: glyph-media
+Version: 0.1.1
+Summary: A terminal-based social media service
+Home-page: https://github.com/pizzalover125/glyph
+Author: pizzalover125
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+Requires-Dist: rich>=13.0.0
+Requires-Dist: questionary>=1.10.0
+Requires-Dist: requests>=2.25.0
+Dynamic: author
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+# ![image](https://github.com/user-attachments/assets/be679c9d-479f-4441-8c16-02b7f88b66ef)
+𝕒 𝕥𝕖𝕣𝕞𝕚𝕟𝕒𝕝-𝕓𝕒𝕤𝕖𝕕 𝕤𝕠𝕔𝕚𝕒𝕝 𝕞𝕖𝕕𝕚𝕒 𝕤𝕖𝕣𝕧𝕚𝕔𝕖.
