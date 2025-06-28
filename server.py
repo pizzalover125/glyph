@@ -7,6 +7,8 @@ from flask import Flask, request, jsonify # type: ignore
 from flask_cors import CORS # type: ignore
 import requests # type: ignore
 import re
+import random
+import string
 
 # Load environment variables
 load_dotenv()
@@ -16,6 +18,10 @@ supabase = create_client(url, key)
 
 app = Flask(__name__)
 CORS(app)
+
+def create_api_key():
+    chars = string.ascii_letters + string.digits
+    return ''.join(random.choices(chars, k=32))
 
 # GitHub helper functions
 def get_github_username(social_links):
@@ -162,7 +168,15 @@ def update_user(username):
     data = request.json
     bio = data.get('bio')
     social_links = data.get('social_links')
+    password = data.get('password')
+
+    if not password:
+        return jsonify({"success": False, "message": "Password is required."}), 400
     
+    response = supabase.table("Users").select("*").eq("username", username).eq("password", password).execute()
+    if len(response.data) == 0:
+        return jsonify({"success": False, "message": "Invalid password."}), 401
+
     try:
         supabase.table("Users").update({
             "bio": bio,
@@ -177,12 +191,20 @@ def update_user(username):
 def create_post():
     data = request.json
     username = data.get('username')
+    password = data.get('password')
     header = data.get('header')
     content = data.get('content')
     
+    if not password:
+        return jsonify({"success": False, "message": "Password is required."}), 400
+
     if not header.strip() or not content.strip():
         return jsonify({"success": False, "message": "Header and content cannot be empty"}), 400
     
+    response = supabase.table("Users").select("*").eq("username", username).eq("password", password).execute()
+    if len(response.data) == 0:
+        return jsonify({"success": False, "message": "Invalid username or password."}), 401
+
     try:
         supabase.table("Posts").insert({
             "username": username,
