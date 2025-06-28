@@ -21,7 +21,6 @@ import requests # type: ignore
 
 # supabase
 load_dotenv() 
-
 url = os.environ.get("SUPABASE_URL")
 key = os.environ.get("SUPABASE_KEY")
 supabase = create_client(url, key)
@@ -614,7 +613,7 @@ def sign_up():
         console.print("\n🔗 [bold]Social Links:[/bold]")
         for platform, link in social_links.items():
             console.print(f"• {platform}: {link}")
-
+        
     supabase.table("Users").insert({
         "username": username,
         "password": password,  
@@ -625,8 +624,231 @@ def sign_up():
     save_user_locally(username, password, description, social_links)
     console.print("[green]✅ Account created and logged in successfully![/green]")
 
+def create_post():
+    console = Console()
+    console.clear()
+    
+    local_user = load_user_locally()
+    
+    if not local_user:
+        console.print("[red]❌ You need to be logged in to create a post![/red]")
+        return
+    
+    header_panel = Panel(
+        Align.center(f"[bold white]Create New Post[/bold white]"),
+        box=ROUNDED,
+        border_style="magenta",
+        padding=(1, 2)
+    )
+    console.print(header_panel)
+    
+    post_header = Prompt.ask("[bold green]Enter a header for your post[/bold green]")
+    console.print("\n[bold green]Write your post (press Enter twice to finish):[/bold green]")
+    lines = []
+    while True:
+        line = input()
+        if line.strip() == "":
+            break
+        lines.append(line)
+    
+    content = "\n".join(lines)
+    
+    if not post_header.strip():
+        console.print("[yellow]Header cannot be empty![/yellow]")
+        return
 
-# main function to run the application
+    if not content.strip():
+        console.print("[yellow]Post cannot be empty![/yellow]")
+        return
+    
+    console.print("\n" + "="*50)
+    console.print("[bold magenta]📋 Post Preview[/bold magenta]")
+    console.print(f"👤 Author: {local_user['username']}")
+    console.print(f"[bold cyan]Header:[/bold cyan] {post_header}")
+    console.print(f"📝 Content:\n{content}")
+    
+    if Confirm.ask("\n[bold yellow]Post this content?[/bold yellow]"):
+        try:
+            supabase.table("Posts").insert({
+                "username": local_user['username'],
+                "header": post_header,
+                "content": content
+            }).execute()
+            console.print("[green]✅ Post created successfully![/green]")
+        except Exception as e:
+            console.print(f"[red]❌ Failed to create post: {e}[/red]")
+    else:
+        console.print("[yellow]Post discarded.[/yellow]")
+
+def create_individual_post_panels(username):
+    try:
+        response = supabase.table("Posts").select("*").eq("username", username).order("created_at", desc=True).limit(3).execute()
+        posts = response.data
+        
+        if not posts:
+            return [Panel(
+                "[italic dim]No posts yet[/italic dim]",
+                title="[bold cyan]Recent Posts[/bold cyan]",
+                border_style="cyan",
+                box=ROUNDED,
+                padding=(1, 2)
+            )]
+        
+        post_panels = []
+        for i, post in enumerate(posts):
+            post_header = post.get("header", "")
+            post_text = post.get("content", "")
+
+            if len(post_text) > 150:
+                post_text = post_text[:150] + "..."
+            
+            panel_content = f"[bold cyan]{post_header}[/bold cyan]\n\n{post_text}" if post_header else post_text
+
+            post_panel = Panel(
+                panel_content,
+                title=f"[bold cyan]Post {i+1}[/bold cyan]",
+                border_style="cyan",
+                box=ROUNDED,
+                padding=(1, 2)
+            )
+            post_panels.append(post_panel)
+        
+        return post_panels
+    except Exception:
+        return [Panel(
+            "[red]Error loading posts[/red]",
+            title="[bold red]Posts Error[/bold red]",
+            border_style="red",
+            box=ROUNDED,
+            padding=(1, 2)
+        )]
+
+def lookup_user():
+    console = Console()
+    console.clear()
+    header = Panel(
+        Align.center("[bold magenta]Profile Lookup[/bold magenta]\n[dim]Enter a username to view their profile[/dim]"),
+        box=ROUNDED,
+        border_style="magenta",
+        padding=(1, 2)
+    )
+    console.print(header)
+    console.print()
+    username = Prompt.ask("[bold green]👤 Enter Username[/bold green]")
+    console.print()
+    with console.status("[bold green]Fetching user data...", spinner="dots"):
+        response = supabase.table("Users").select("*").eq("username", username).execute()
+        user_data = response.data
+    console.clear()
+    if user_data and len(user_data) > 0:
+        user = user_data[0]
+        description = user.get("bio", "")
+        social_links = user.get("social", {})
+        user_header = Panel(
+            Align.center(f"[bold white]Profile: {username}[/bold white]"),
+            box=ROUNDED,
+            border_style="magenta",
+            padding=(1, 2)
+        )
+        console.print(user_header)
+        console.print()
+        
+        bio_panel = create_bio_panel(description)
+        social_panel = create_social_links_panel(social_links)
+        top_panels = [bio_panel, social_panel]
+        
+        github_username = get_github_username(social_links)
+        if github_username:
+            with console.status("[bold green]Fetching GitHub data...", spinner="dots"):
+                gh_info = fetch_github_info(github_username)
+                contributions = fetch_github_contributions(github_username)
+            if gh_info:
+                github_panel = create_github_stats_panel(gh_info, contributions)
+                top_panels.append(github_panel)
+            else:
+                error_panel = Panel(
+                    "[yellow]⚠️ Could not fetch GitHub information[/yellow]",
+                    title="[bold red]GitHub Error[/bold red]",
+                    border_style="red",
+                    box=ROUNDED
+                )
+                top_panels.append(error_panel)
+
+        rendered_heights = []
+        for panel in top_panels:
+            temp_console = Console(width=console.width)
+            with temp_console.capture() as capture:
+                temp_console.print(panel)
+            rendered_heights.append(len(capture.get().splitlines()))
+
+        max_height = max(rendered_heights)
+        padded_top_panels = [pad_panel_to_height(panel, max_height) for panel in top_panels]
+
+        panel_width = int(console.width * 0.30)
+        panel_padding = int(console.width * 0.03)
+
+        top_row = Columns(
+            padded_top_panels,
+            expand=False,
+            equal=False,
+            padding=(0, panel_padding),
+            width=panel_width
+        )
+        console.print(top_row)
+        console.print()
+
+        try:
+            response = supabase.table("Posts").select("*").eq("username", username).order("created_at", desc=True).limit(3).execute()
+            posts = response.data
+        except Exception:
+            posts = None
+
+        if posts:
+            for post in posts:
+                post_header = post.get("header", "")
+                post_text = post.get("content", "")
+                created_at = post.get("created_at", "")
+
+                created_at_str = ""
+                if created_at:
+                    try:
+                        dt = datetime.fromisoformat(created_at.replace(" ", "T").split("+")[0])
+                        created_at_str = dt.strftime("%b %d, %Y at %H:%M UTC")
+                    except Exception:
+                        created_at_str = created_at
+                    created_at_str = f"[dim]{created_at_str}[/dim]"
+                if len(post_text) > 150:
+                    post_text = post_text[:150] + "..."
+                panel_content = f"[bold cyan]{post_header}[/bold cyan]\n\n{post_text}"
+                if created_at_str:
+                    panel_content += f"\n\n{created_at_str}"
+                post_panel = Panel(
+                    panel_content,
+                    border_style="cyan",
+                    box=ROUNDED,
+                    padding=(1, 2)
+                )
+                console.print(post_panel, width=console.width)
+                console.print()
+        else:
+            post_panel = Panel(
+                "[italic dim]No posts yet[/italic dim]",
+                border_style="cyan",
+                box=ROUNDED,
+                padding=(1, 2)
+            )
+            console.print(post_panel, width=console.width)
+            console.print()
+        
+    else:
+        error_panel = Panel(
+            Align.center("[bold red]❌ User not found[/bold red]\n[dim]Please check the username and try again[/dim]"),
+            border_style="red",
+            box=ROUNDED,
+            padding=(1, 2)
+        )
+        console.print(error_panel)
+
 def main():
     console = Console()
     console.clear()
@@ -646,6 +868,7 @@ def main():
             choices = [
                 "👀 Lookup User Profile",
                 "✏️ Edit My Profile",
+                "📝 Create Post",  # New option
                 "🔓 Logout",
                 "🚪 Exit"
             ]
@@ -662,6 +885,11 @@ def main():
                 continue
             elif action == "✏️ Edit My Profile":
                 edit_profile()
+                input("\nPress [Enter] to return to the home page...")
+                console.clear()
+                continue
+            elif action == "📝 Create Post":  # New action
+                create_post()
                 input("\nPress [Enter] to return to the home page...")
                 console.clear()
                 continue
