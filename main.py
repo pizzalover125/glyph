@@ -868,7 +868,7 @@ def main():
             choices = [
                 "👀 Lookup User Profile",
                 "✏️ Edit My Profile",
-                "📝 Create Post",  # New option
+                "📝 Create Post",  
                 "🔓 Logout",
                 "🚪 Exit"
             ]
@@ -888,7 +888,7 @@ def main():
                 input("\nPress [Enter] to return to the home page...")
                 console.clear()
                 continue
-            elif action == "📝 Create Post":  # New action
+            elif action == "📝 Create Post":  
                 create_post()
                 input("\nPress [Enter] to return to the home page...")
                 console.clear()
