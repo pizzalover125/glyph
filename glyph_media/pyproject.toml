@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools >= 77.0.3"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "glyph_media"
+version = "0.5.0"
+authors = [
+  { name="pizzalover125", email="chessthinker600@gmail.com" },
+]
+description = "A terminal-based social media."
+readme = "README.md"
+requires-python = ">=3.9"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+license = "MIT"
+license-files = ["LICEN[CS]E*"]
+
+dependencies = [
+    "rich",
+    "questionary",
+    "requests"
+]
+
+[project.urls]
+Homepage = "https://glyph-sh.vercel.app/"
+
+[project.scripts]
+glyph_media = "glyph_media.main:main"

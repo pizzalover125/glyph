@@ -1,0 +1,11 @@
+LICENSE
+README.md
+pyproject.toml
+src/glyph_media.egg-info/PKG-INFO
+src/glyph_media.egg-info/SOURCES.txt
+src/glyph_media.egg-info/dependency_links.txt
+src/glyph_media.egg-info/entry_points.txt
+src/glyph_media.egg-info/requires.txt
+src/glyph_media.egg-info/top_level.txt
+src/glyph_media_pizzalover125/__init__.py
+src/glyph_media_pizzalover125/main.py

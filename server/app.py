@@ -224,9 +224,19 @@ def get_user_posts(username):
     except Exception as e:
         return jsonify({"success": False, "message": str(e)}), 500
 
+@app.route('/api/posts/random', methods=['GET'])
+def get_random_posts():
+    try:
+        response = supabase.table("Posts").select("*").execute()
+        posts = response.data or []
+        random_posts = random.sample(posts, min(3, len(posts)))
+        return jsonify({"success": True, "posts": random_posts})
+    except Exception as e:
+        return jsonify({"success": False, "message": str(e)}), 500
+    
 @app.route('/api/health', methods=['GET'])
 def health_check():
     return jsonify({"status": "healthy"})
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    app.run(debug=True, host='0.0.0.0', port=4982)

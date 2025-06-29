@@ -1,0 +1,19 @@
+Metadata-Version: 2.4
+Name: glyph_media
+Version: 0.0.1
+Summary: A terminal-based social media.
+Author-email: pizzalover125 <chessthinker600@gmail.com>
+License-Expression: MIT
+Project-URL: Homepage, https://glyph-sh.vercel.app/
+Classifier: Programming Language :: Python :: 3
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: rich
+Requires-Dist: questionary
+Requires-Dist: requests
+Dynamic: license-file
+
+# ![image](https://github.com/user-attachments/assets/be679c9d-479f-4441-8c16-02b7f88b66ef)
+𝕒 𝕥𝕖𝕣𝕞𝕚𝕟𝕒𝕝-𝕓𝕒𝕤𝕖𝕕 𝕤𝕠𝕔𝕚𝕒𝕝 𝕞𝕖𝕕𝕚𝕒 𝕤𝕖𝕣𝕧𝕚𝕔𝕖.
