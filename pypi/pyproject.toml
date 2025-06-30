@@ -1,0 +1,22 @@
+[project]
+name = "glyphsh"
+version = "1.0.0"
+description = "Social media reinvented. In a terminal."
+authors = [{ name="pizzalover125", email="chessthinker600@gmail.com" }]
+readme = "README.md"
+requires-python = ">=3.10,<3.13"
+dependencies = [
+    "rich>=13.0.0",
+    "questionary>=2.0.0",
+    "requests>=2.31.0"
+]
+
+[project.urls]
+"main page" = "https://glyph-sh.vercel.app/"
+"github" = "https://github.com/pizzalover125/glyph"
+
+[project.scripts]
+glyph = "glyphsh.main:main"
+
+[tool.ruff]
+target-version = "py312"

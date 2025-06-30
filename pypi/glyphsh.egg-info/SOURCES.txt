@@ -1,0 +1,10 @@
+LICENSE
+README.md
+pyproject.toml
+glyphsh/main.py
+glyphsh.egg-info/PKG-INFO
+glyphsh.egg-info/SOURCES.txt
+glyphsh.egg-info/dependency_links.txt
+glyphsh.egg-info/entry_points.txt
+glyphsh.egg-info/requires.txt
+glyphsh.egg-info/top_level.txt

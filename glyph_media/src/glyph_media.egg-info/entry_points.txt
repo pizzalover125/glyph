@@ -1,2 +1,0 @@
-[console_scripts]
-glyph_media = src.glyph_media.main:main
