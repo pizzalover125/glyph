@@ -138,14 +138,15 @@ def get_user(username):
     response = supabase.table("Users").select("*").eq("username", username).execute()
     if not response.data:
         return jsonify({"success": False, "message": "User not found"}), 404
-    
-    user = response.data[0]
-    
+
+    user = response.data[0].copy()
+    user.pop("password", None)  # Remove password from response
+
     # Get GitHub data if available
     github_data = None
     social_links = user.get("social", {})
     github_username = get_github_username(social_links)
-    
+
     if github_username:
         gh_info = fetch_github_info(github_username)
         if gh_info:
@@ -156,7 +157,7 @@ def get_user(username):
                 "contributions": contributions,
                 "total_stars": total_stars
             }
-    
+
     return jsonify({
         "success": True,
         "user": user,

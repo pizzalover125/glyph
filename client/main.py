@@ -16,7 +16,7 @@ from rich.console import Group # type: ignore
 import questionary # type: ignore
 import requests # type: ignore
 
-API_BASE_URL = "https://glyph-media.pizzalover125.hackclub.app/api"
+API_BASE_URL = "https://glyph-sh.pizzalover125.hackclub.app/api"
 
 def api_request(method, endpoint, data=None):
     url = f"{API_BASE_URL}/{endpoint}"
