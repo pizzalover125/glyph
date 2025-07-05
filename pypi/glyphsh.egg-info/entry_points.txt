@@ -1,2 +1,4 @@
 [console_scripts]
 glyph = glyphsh.main:main
+glyph-post = glyphsh.glyph_post:main
+glyph-view = glyphsh.glyph_view:main

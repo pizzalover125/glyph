@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>glyph - Terminal Social Media</title>
+    <title>glyph</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&display=swap');
         
@@ -12,21 +12,21 @@
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         body {
             font-family: 'JetBrains Mono', monospace;
             background: linear-gradient(135deg, #0a0a0a 0%, #1a0a1a 100%);
             color: #e0e0e0;
             line-height: 1.6;
-            overflow-x: hidden;
+            overflow-x: hidden; 
         }
         
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 20px;
-        }
-        
+        }   
+
         header {
             position: fixed;
             top: 0;
@@ -42,6 +42,22 @@
             justify-content: space-between;
             align-items: center;
             padding: 1rem 0;
+            position: relative;
+        }
+        
+        .header-accents {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
         }
         
         .logo-small {
@@ -50,6 +66,8 @@
             font-weight: 700;
             text-decoration: none;
             transition: all 0.3s ease;
+            z-index: 10;
+            position: relative;
         }
         
         .logo-small:hover {
@@ -59,6 +77,8 @@
         .nav-links {
             display: flex;
             gap: 2rem;
+            z-index: 10;
+            position: relative;
         }
         
         .nav-links a {
@@ -108,6 +128,42 @@
                 radial-gradient(circle at 80% 80%, rgba(255, 0, 255, 0.1) 0%, transparent 50%),
                 radial-gradient(circle at 40% 40%, rgba(255, 0, 255, 0.05) 0%, transparent 50%);
             animation: pulse 4s ease-in-out infinite;
+        }
+        
+        .hero-chars {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+        
+        .hero-char {
+            position: absolute;
+            color: #333;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            pointer-events: auto;
+            cursor: default;
+            user-select: none;
+            animation: drift 8s ease-in-out infinite;
+        }
+        
+        .hero-char:hover {
+            color: #ff00ff;
+            text-shadow: 0 0 10px #ff00ff;
+            transform: scale(1.5);
+        }
+        
+        @keyframes drift {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            25% { transform: translateY(-10px) rotate(2deg); }
+            50% { transform: translateY(5px) rotate(-1deg); }
+            75% { transform: translateY(-5px) rotate(1deg); }
         }
         
         @keyframes pulse {
@@ -210,7 +266,6 @@
             box-shadow: 0 0 30px rgba(255, 0, 255, 0.5);
         }
         
-        /* Features Section */
         .features {
             padding: 6rem 0;
             background: rgba(255, 0, 255, 0.02);
@@ -273,7 +328,6 @@
             color: #ff00ff;
         }
         
-        /* Terminal Preview */
         .terminal-preview {
             padding: 6rem 0;
             text-align: center;
@@ -342,7 +396,6 @@
             to { width: 100%; }
         }
         
-        /* Footer */
         footer {
             background: #0a0a0a;
             border-top: 1px solid #ff00ff;
@@ -377,8 +430,7 @@
             padding-top: 2rem;
             color: #666;
         }
-        
-        /* Responsive */
+
         @media (max-width: 768px) {
             .ascii-logo {
                 font-size: 0.5rem;
@@ -396,9 +448,12 @@
                 flex-direction: column;
                 align-items: center;
             }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
         }
         
-        /* Scrollbar */
         ::-webkit-scrollbar {
             width: 8px;
         }
@@ -420,17 +475,19 @@
 <body>
     <header>
         <nav class="container">
-            <a href="#" class="logo-small">glyph</a>
+            <a href="#" class="logo-small">~/glyph</a>
             <div class="nav-links">
                 <a href="#download">Download</a>
                 <a href="#features">Features</a>
-                <a href="https://github.com/pizzalover125/glyph">GitHub</a>
+                <a href="https://github.com/pizzalover125/glyph" target="_blank">GitHub</a>
+                <a href="https://pypi.org/project/glyphsh/" target="_blank">PyPi (pip)</a>
             </div>
         </nav>
     </header>
 
     <main>
         <section class="hero">
+            <div class="hero-chars" id="heroChars"></div>
             <div class="container">
                 <div class="hero-content">
                     <div class="ascii-logo"> ░▒▓██████▓▒░░▒▓█▓▒░   ░▒▓█▓▒░░▒▓█▓▒░▒▓███████▓▒░░▒▓█▓▒░░▒▓█▓▒░ 
@@ -480,7 +537,7 @@
 
         <section class="terminal-preview" >
             <div class="container">
-                <h2 id="download">Download</h2>
+                <h2 id="download" style="padding: 2rem 0;">Download</h2>
                 <div class="terminal">
                     <div class="terminal-header">
                         <div class="terminal-dots">
@@ -495,13 +552,13 @@
                             <span class="prompt">glyph@user:~$</span> <span class="command">pip install glyphsh</span>
                         </div>
                         <div class="terminal-line">
-                            <span class="command">Successfully installed glyphsh-1.0.0</span>
+                            <span class="command">Successfully installed glyphsh</span>
                         </div>
                         <div class="terminal-line">
                             <span class="prompt">glyph@user:~$</span> <span class="command">glyph</span>
                         </div>
                     </div>
-                </div>
+                </div> 
             </div>
         </section>
     </main>
@@ -512,14 +569,15 @@
                 <div class="footer-section">
                     <h3>Product</h3>
                     <p><a href="#download">Download</a></p>
+                    <p><a href="https://pypi.org/project/glyphsh/" target="_blank">PyPi (pip)</a></p>
                 </div>
                 <div class="footer-section">
                     <h3>Community</h3>
-                    <p><a href="https://github.com/pizzalover125/glyph">GitHub</a></p>
+                    <p><a href="https://github.com/pizzalover125/glyph" target="_blank">GitHub</a></p>
                 </div>
                 <div class="footer-section">
                     <h3>Support</h3>    
-                    <p><a href="chessthinker600@gmail.com">Contact Us</a></p>
+                    <p><a href="mailto:chessthinker600@gmail.com">Contact Us</a></p>
                 </div>
             </div>
             <div class="footer-bottom">
@@ -534,5 +592,30 @@
             51%, 100% { opacity: 0; }
         }
     </style>
+    
+    <script>
+        function generateHeroChars() {
+            const chars = ['-', '/', '~', '.', "'", '"', '\\', '|', '`', '_', '^', '*', '+', '=', ':', ';', ',', '<', '>', '?'];
+            const heroChars = document.getElementById('heroChars');
+            const numChars = 100; 
+            
+            for (let i = 0; i < numChars; i++) {
+                const char = document.createElement('span');
+                char.className = 'hero-char';
+                char.textContent = chars[Math.floor(Math.random() * chars.length)];
+                
+                char.style.left = Math.random() * 100 + '%';
+                char.style.top = Math.random() * 100 + '%';
+                
+                char.style.animationDelay = Math.random() * 8 + 's';
+                
+                char.style.opacity = 0.3 + Math.random() * 0.4;
+                
+                heroChars.appendChild(char);
+            }
+        }
+        
+        document.addEventListener('DOMContentLoaded', generateHeroChars);
+    </script>
 </body>
 </html>

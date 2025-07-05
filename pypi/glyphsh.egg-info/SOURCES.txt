@@ -1,6 +1,8 @@
 LICENSE
 README.md
 pyproject.toml
+glyphsh/glyph_post.py
+glyphsh/glyph_view.py
 glyphsh/main.py
 glyphsh.egg-info/PKG-INFO
 glyphsh.egg-info/SOURCES.txt

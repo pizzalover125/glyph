@@ -1,6 +1,6 @@
 [project]
 name = "glyphsh"
-version = "1.0.1"
+version = "1.2.0"
 description = "Social media reinvented. In a terminal."
 authors = [{ name="pizzalover125", email="chessthinker600@gmail.com" }]
 readme = "README.md"
@@ -17,6 +17,8 @@ dependencies = [
 
 [project.scripts]
 glyph = "glyphsh.main:main"
+glyph-view = "glyphsh.glyph_view:main"
+glyph-post = "glyphsh.glyph_post:main"
 
 [tool.ruff]
 target-version = "py312"
