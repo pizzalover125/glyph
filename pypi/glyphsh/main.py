@@ -307,15 +307,20 @@ def display_current_profile(user_data):
 def edit_bio(current_bio):
     console = Console()
     if Confirm.ask("\nWould you like to edit your bio?"):
-        console.print("\n[bold green]Enter your new bio (press Enter twice to finish):[/bold green]")
+        console.print("\n[bold green]Enter your new bio (press Enter twice to finish, even for a blank bio):[/bold green]")
         lines = []
+        blank_count = 0
         while True:
             line = input()
             if line.strip() == "":
-                break
-            lines.append(line)
+                blank_count += 1
+                if blank_count == 2:
+                    break
+            else:
+                blank_count = 0
+                lines.append(line)
         new_bio = "\n".join(lines)
-        return new_bio if new_bio.strip() else current_bio
+        return new_bio if new_bio.strip() else ""
     return current_bio
 
 def edit_social_links(current_social):
@@ -570,13 +575,18 @@ def sign_up():
         youtube = Prompt.ask("[bold blue]YouTube Channel URL[/bold blue]")
         social_links["YouTube"] = youtube
 
-    console.print("\n[bold green]Tell us about yourself (press Enter twice to finish):[/bold green]")
+    console.print("\n[bold green]Tell us about yourself (press Enter twice to finish, even for a blank bio):[/bold green]")
     lines = []
+    blank_count = 0
     while True:
         line = input()
         if line.strip() == "":
-            break
-        lines.append(line)
+            blank_count += 1
+            if blank_count == 2:
+                break
+        else:
+            blank_count = 0
+            lines.append(line)
     description = "\n".join(lines)
 
     console.print("\n[bold magenta]Summary[/bold magenta]")
