@@ -1,9 +1,14 @@
 LICENSE
 README.md
 pyproject.toml
+glyphsh/auth.py
+glyphsh/github.py
 glyphsh/glyph_post.py
 glyphsh/glyph_view.py
 glyphsh/main.py
+glyphsh/posts.py
+glyphsh/profile.py
+glyphsh/utils.py
 glyphsh.egg-info/PKG-INFO
 glyphsh.egg-info/SOURCES.txt
 glyphsh.egg-info/dependency_links.txt
