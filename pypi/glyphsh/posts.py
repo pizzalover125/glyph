@@ -14,6 +14,7 @@ import questionary # type: ignore
 from github import create_github_stats_panel
 from utils import is_valid_username, is_valid_password
 from utils import api_request
+from auth import load_user_locally
 
 def create_post():
     console = Console()

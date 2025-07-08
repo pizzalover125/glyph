@@ -9,53 +9,10 @@ from rich.panel import Panel # type: ignore
 from rich.table import Table # type: ignore
 from rich.text import Text # type: ignore
 from rich.box import ROUNDED # type: ignore
-
-API_BASE_URL = "https://glyph-sh.pizzalover125.hackclub.app/api"
-
-def api_request(method, endpoint, data=None):
-    """Make API request to Glyph service"""
-    url = f"{API_BASE_URL}/{endpoint}"
-    headers = {"Content-Type": "application/json"}
-    
-    try:
-        if method == "GET":
-            response = requests.get(url, headers=headers, timeout=10)
-        elif method == "POST":
-            response = requests.post(url, headers=headers, json=data, timeout=10)
-        elif method == "PUT":
-            response = requests.put(url, headers=headers, json=data, timeout=10)
-        
-        return response.json()
-    except requests.exceptions.RequestException as e:
-        return {"success": False, "message": f"Connection error: {str(e)}"}
-
-def load_user_locally():
-    home_dir = os.path.expanduser("~")
-    glyph_dir = os.path.join(home_dir, "glyph")
-    file_path = os.path.join(glyph_dir, "user_data.json")
-    
-    if os.path.exists(file_path):
-        try:
-            with open(file_path, "r") as f:
-                data = json.load(f)
-            if data.get("logged_in", False):
-                return data
-        except Exception:
-            pass
-    return None
-
-def authenticate_user(username, password):
-    response = api_request("POST", "authenticate", {
-        "username": username,
-        "password": password
-    })
-    
-    if response.get("success"):
-        return response["user"]
-    return None
+from utils import api_request
+from auth import load_user_locally, authenticate_user
 
 def create_post(header, message):
-    """Create a new post"""
     console = Console()
 
     local_user = load_user_locally()
